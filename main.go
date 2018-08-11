@@ -26,5 +26,12 @@ func main() {
 	fmt.Println("Connected to DB.")
 
 	// API start
-	log.Fatal(rest.ServeAPI(config.RestfulEndpoint, dbhandler))
+	httpErrChan, httpsErrChan := rest.ServeAPI(config.RestfulEndpoint, config.RestfulTLSEndpoint, dbhandler)
+
+	select {
+	case err := <-httpErrChan:
+		log.Fatal("HTTP error: ", err)
+	case err := <-httpsErrChan:
+		log.Fatal("HTTPS error: ", err)
+	}
 }
