@@ -19,7 +19,10 @@ func main() {
 	config, _ := config.ExtractConfiguration(*confPath)
 
 	fmt.Println("Connecting to database...")
-	dbhandler, _ := dblayer.NewPersistenceLayer(config.DatabaseType, config.DBConnection)
+	dbhandler, err := dblayer.NewPersistenceLayer(config.DatabaseType, config.DBConnection)
+	if err != nil {
+		log.Fatalf("couldn't connect to database: %+v", err)
+	}
 	fmt.Println("Connected to DB.")
 
 	// API start
