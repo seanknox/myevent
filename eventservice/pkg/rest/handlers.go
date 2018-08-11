@@ -8,7 +8,7 @@ import (
 	"strings"
 
 	"github.com/gorilla/mux"
-	"github.com/seanknox/myevent/eventservice/pkg/persistence"
+	"github.com/seanknox/myevent/lib/persistence"
 )
 
 type eventServiceHandler struct {

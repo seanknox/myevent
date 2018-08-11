@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/seanknox/myevent/eventservice/pkg/persistence/dblayer"
+	"github.com/seanknox/myevent/lib/persistence/dblayer"
 )
 
 var (

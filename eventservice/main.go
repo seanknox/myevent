@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/seanknox/myevent/eventservice/pkg/persistence/dblayer"
 	"github.com/seanknox/myevent/eventservice/pkg/rest"
+	"github.com/seanknox/myevent/lib/persistence/dblayer"
 
 	"github.com/seanknox/myevent/eventservice/config"
 )

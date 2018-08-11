@@ -3,7 +3,7 @@ package rest
 import (
 	"net/http"
 
-	"github.com/seanknox/myevent/eventservice/pkg/persistence"
+	"github.com/seanknox/myevent/lib/persistence"
 
 	"github.com/gorilla/mux"
 )
