@@ -3,8 +3,8 @@ package dblayer
 import (
 	"fmt"
 
-	"github.com/seanknox/myevent/pkg/persistence"
-	"github.com/seanknox/myevent/pkg/persistence/mongolayer"
+	"github.com/seanknox/myevent/eventservice/pkg/persistence"
+	"github.com/seanknox/myevent/eventservice/pkg/persistence/mongolayer"
 )
 
 type DBTYPE string

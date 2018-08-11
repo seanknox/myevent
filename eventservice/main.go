@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/seanknox/myevent/pkg/persistence/dblayer"
-	"github.com/seanknox/myevent/pkg/rest"
+	"github.com/seanknox/myevent/eventservice/pkg/persistence/dblayer"
+	"github.com/seanknox/myevent/eventservice/pkg/rest"
 
-	"github.com/seanknox/myevent/config"
+	"github.com/seanknox/myevent/eventservice/config"
 )
 
 func main() {

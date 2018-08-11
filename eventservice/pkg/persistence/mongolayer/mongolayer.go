@@ -6,7 +6,7 @@ import (
 	mgo "gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 
-	"github.com/seanknox/myevent/pkg/persistence"
+	"github.com/seanknox/myevent/eventservice/pkg/persistence"
 )
 
 const (
