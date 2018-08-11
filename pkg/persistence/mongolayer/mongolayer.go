@@ -69,7 +69,6 @@ func (mgoLayer *MongoDBLayer) FindEventByName(name string) (persistence.Event, e
 }
 
 func (mgoLayer *MongoDBLayer) FindAllAvailableEvents() ([]persistence.Event, error) {
-	fmt.Println("Finding events...")
 	s := mgoLayer.getFreshSession()
 	defer s.Close()
 	events := []persistence.Event{}
