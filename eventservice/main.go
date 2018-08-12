@@ -14,7 +14,7 @@ import (
 )
 
 func main() {
-	confPath := flag.String("conf", `.\config\config.json`, "flag to set path of configuration file")
+	confPath := flag.String("config", `./config/config.json`, "flag to set path of configuration file")
 	flag.Parse()
 
 	// extract config
@@ -29,12 +29,12 @@ func main() {
 		panic(err)
 	}
 
-	fmt.Println("Connecting to database...")
+	fmt.Println("Event Service connecting to database...")
 	dbhandler, err := dblayer.NewPersistenceLayer(config.DatabaseType, config.DBConnection)
 	if err != nil {
-		log.Fatalf("couldn't connect to database: %+v", err)
+		log.Fatalf("Event Service couldn't connect to database: %+v", err)
 	}
-	fmt.Println("Connected to DB.")
+	fmt.Println("Event Service connected to DB.")
 
 	// API start
 	httpErrChan, httpsErrChan := rest.ServeAPI(config.RestfulEndpoint, config.RestfulTLSEndpoint, dbhandler, emitter)
