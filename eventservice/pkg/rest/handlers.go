@@ -6,18 +6,24 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
+	"time"
+
+	"github.com/seanknox/myevent/contracts"
+	"github.com/seanknox/myevent/lib/msgqueue"
+	"github.com/seanknox/myevent/lib/persistence"
 
 	"github.com/gorilla/mux"
-	"github.com/seanknox/myevent/lib/persistence"
 )
 
 type eventServiceHandler struct {
-	dbHandler persistence.DatabaseHandler
+	dbHandler    persistence.DatabaseHandler
+	eventEmitter msgqueue.EventEmitter
 }
 
-func newEventHandler(databaseHandler persistence.DatabaseHandler) *eventServiceHandler {
+func newEventHandler(databaseHandler persistence.DatabaseHandler, eventEmitter msgqueue.EventEmitter) *eventServiceHandler {
 	return &eventServiceHandler{
-		dbHandler: databaseHandler,
+		dbHandler:    databaseHandler,
+		eventEmitter: eventEmitter,
 	}
 }
 
@@ -88,5 +94,15 @@ func (eh *eventServiceHandler) newEventHandler(w http.ResponseWriter, r *http.Re
 		fmt.Fprintf(w, `{"error": "error occured while persisting event %d %s"}`, id, err)
 		return
 	}
+
+	msg := contracts.EventCreatedEvent{
+		ID:         hex.EncodeToString(id),
+		Name:       event.Name,
+		LocationID: string(event.Location.ID),
+		Start:      time.Unix(event.StartDate, 0),
+		End:        time.Unix(event.EndDate, 0),
+	}
+
+	eh.eventEmitter.Emit(&msg)
 	fmt.Fprint(w, `{"id": "%d"}`, id)
 }
