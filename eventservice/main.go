@@ -10,7 +10,7 @@ import (
 	"github.com/seanknox/myevent/lib/persistence/dblayer"
 	"github.com/streadway/amqp"
 
-	"github.com/seanknox/myevent/eventservice/config"
+	"github.com/seanknox/myevent/lib/config"
 )
 
 func main() {
