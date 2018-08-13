@@ -7,15 +7,17 @@ import (
 	"github.com/seanknox/myevent/lib/msgqueue"
 	"github.com/seanknox/myevent/lib/persistence"
 
+	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 )
 
 func ServeAPI(listenAddr string, database persistence.DatabaseHandler, eventEmitter msgqueue.EventEmitter) {
 	r := mux.NewRouter()
 	r.Methods("POST").Path("/events/{eventID}/bookings").Handler(&CreateBookingHandler{eventEmitter, database})
+	server := handlers.CORS()(r)
 
 	srv := http.Server{
-		Handler:      r,
+		Handler:      handlers.CORS()(r),
 		Addr:         listenAddr,
 		WriteTimeout: 2 * time.Second,
 		ReadTimeout:  1 * time.Second,

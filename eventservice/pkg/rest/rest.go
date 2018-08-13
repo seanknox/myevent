@@ -8,6 +8,7 @@ import (
 
 	"github.com/seanknox/myevent/lib/persistence"
 
+	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 	zipkin "github.com/openzipkin/zipkin-go"
 	zipkinhttp "github.com/openzipkin/zipkin-go/middleware/http"
@@ -39,6 +40,7 @@ func ServeAPI(endpoint, zipkin_uri string, dbHandler persistence.DatabaseHandler
 	handler := newEventHandler(dbHandler, eventEmitter)
 	r := mux.NewRouter()
 	r.Use(serverMiddleware)
+	server := handlers.CORS()(r)
 
 	eventsrouter := r.PathPrefix("/events").Subrouter()
 
@@ -46,6 +48,6 @@ func ServeAPI(endpoint, zipkin_uri string, dbHandler persistence.DatabaseHandler
 	eventsrouter.Methods("GET").Path("").HandlerFunc(handler.allEventsHandler)
 	eventsrouter.Methods("POST").Path("").HandlerFunc(handler.newEventHandler)
 
-	return http.ListenAndServe(endpoint, r)
+	return http.ListenAndServe(endpoint, server)
 
 }
