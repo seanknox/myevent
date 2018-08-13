@@ -13,5 +13,9 @@ type EventCreatedEvent struct {
 
 // EventName returns the event's name
 func (e *EventCreatedEvent) EventName() string {
-	return "eventCreated"
+	return e.Name
+}
+
+func (e *EventCreatedEvent) PartitionKey() string {
+	return e.ID
 }
