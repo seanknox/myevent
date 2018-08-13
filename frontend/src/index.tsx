@@ -6,7 +6,7 @@ class App extends React.Component<{}, {}> {
 	render() {
 		return <div className="container">
 			<h1>MyEvents</h1>
-			<EventListContainer eventListURL="http://localhost:8181"/>
+			<EventListContainer eventListURL="http://localhost:8182/events"/>
 		</div>
 	}
 }
