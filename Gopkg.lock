@@ -56,6 +56,12 @@
   revision = "f15292f7a699fcc1a38a80977f80a046874ba8ac"
 
 [[projects]]
+  name = "github.com/openzipkin/zipkin-go"
+  packages = [".","idgenerator","middleware/http","model","propagation","propagation/b3","reporter","reporter/http"]
+  revision = "d455a5674050831c1e187644faa4046d653433c2"
+  version = "v0.1.1"
+
+[[projects]]
   name = "github.com/pierrec/lz4"
   packages = [".","internal/xxh32"]
   revision = "1958fd8fff7f115e79725b1288e0b878b3e06b00"
@@ -74,6 +80,18 @@
   revision = "70e15c650864f4fc47f5d3c82ea117285480895d"
 
 [[projects]]
+  branch = "master"
+  name = "golang.org/x/net"
+  packages = ["context"]
+  revision = "c39426892332e1bb5ec0a434a079bf82f5d30c54"
+
+[[projects]]
+  name = "google.golang.org/grpc"
+  packages = ["metadata"]
+  revision = "32fb0ac620c32ba40a4626ddf94d90d12cce3455"
+  version = "v1.14.0"
+
+[[projects]]
   branch = "v2"
   name = "gopkg.in/mgo.v2"
   packages = [".","bson","internal/json","internal/sasl","internal/scram"]
@@ -82,6 +100,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "74038d146d71f850c1cb975aced73e48176924272800f3214195d955bbbdc9f1"
+  inputs-digest = "61d6657386a94e804ffd424ae35cd0bd9270600edbcf0f0696aa0bd1cedd2736"
   solver-name = "gps-cdcl"
   solver-version = 1
