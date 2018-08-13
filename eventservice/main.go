@@ -59,12 +59,5 @@ func main() {
 	fmt.Println("Event Service connected to DB.")
 
 	// API start
-	httpErrChan, httpsErrChan := rest.ServeAPI(config.RestfulEndpoint, config.RestfulTLSEndpoint, dbhandler, emitter)
-
-	select {
-	case err := <-httpErrChan:
-		log.Fatal("HTTP error: ", err)
-	case err := <-httpsErrChan:
-		log.Fatal("HTTPS error: ", err)
-	}
+	rest.ServeAPI(config.RestfulEndpoint, config.ZipkinURI, dbhandler, emitter)
 }

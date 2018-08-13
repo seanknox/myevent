@@ -13,20 +13,20 @@ var (
 	DBTypeDefault              = dblayer.DBTYPE("mongodb")
 	DBConnectionDefault        = "mongodb://127.0.0.1:27017"
 	RestfulEPDefault           = "localhost:8182"
-	RestfulTLSEPDefault        = "localhost:8183"
 	MessageBrokerTypeDefault   = "kafka"
 	AMQPMessageBrokerDefault   = "amqp://guest:guest@localhost:5672"
 	KafkaMessageBrokersDefault = []string{"localhost:9092"}
+	ZipkinURIDefault           = "http://localhost:9411/api/v2/spans"
 )
 
 type ServiceConfig struct {
 	DatabaseType        dblayer.DBTYPE `json:"databasetype"`
 	DBConnection        string         `json:"dbconnection"`
 	RestfulEndpoint     string         `json:"restfulapi_endpoint"`
-	RestfulTLSEndpoint  string         `json:"restfultlsapi_endpoint"`
 	MessageBrokerType   string         `json:"message_broker_type"`
 	AMQPMessageBroker   string         `json:"amqp_message_broker"`
 	KafkaMessageBrokers []string       `json:"kafka_message_brokers"`
+	ZipkinURI           string         `json:"zipkin_uri"`
 }
 
 func ExtractConfiguration(filename string) (ServiceConfig, error) {
@@ -34,10 +34,10 @@ func ExtractConfiguration(filename string) (ServiceConfig, error) {
 		DBTypeDefault,
 		DBConnectionDefault,
 		RestfulEPDefault,
-		RestfulTLSEPDefault,
 		MessageBrokerTypeDefault,
 		AMQPMessageBrokerDefault,
 		KafkaMessageBrokersDefault,
+		ZipkinURIDefault,
 	}
 
 	file, err := os.Open(filename)

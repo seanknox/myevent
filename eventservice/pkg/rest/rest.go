@@ -1,6 +1,7 @@
 package rest
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/seanknox/myevent/lib/msgqueue"
@@ -8,11 +9,36 @@ import (
 	"github.com/seanknox/myevent/lib/persistence"
 
 	"github.com/gorilla/mux"
+	zipkin "github.com/openzipkin/zipkin-go"
+	zipkinhttp "github.com/openzipkin/zipkin-go/middleware/http"
+	httpreporter "github.com/openzipkin/zipkin-go/reporter/http"
 )
 
-func ServeAPI(endpoint, tlsendpoint string, dbHandler persistence.DatabaseHandler, eventEmitter msgqueue.EventEmitter) (chan error, chan error) {
+func ServeAPI(endpoint, zipkin_uri string, dbHandler persistence.DatabaseHandler, eventEmitter msgqueue.EventEmitter) error {
+	// setup zipkin span reporter
+	reporter := httpreporter.NewReporter(zipkin_uri)
+	defer reporter.Close()
+
+	// create local zipkin endpoint
+	zipkinEndpoint, err := zipkin.NewEndpoint("myEvent", endpoint)
+	if err != nil {
+		log.Fatalf("unable to create local zipking endpoint: %+v\n", err)
+	}
+
+	// initialize tracer
+	tracer, err := zipkin.NewTracer(reporter, zipkin.WithLocalEndpoint(zipkinEndpoint))
+	if err != nil {
+		log.Fatalf("unable to initialize tracer %+v\n", err)
+	}
+
+	// create global zipkin http server middleware
+	serverMiddleware := zipkinhttp.NewServerMiddleware(
+		tracer, zipkinhttp.TagResponseSize(true),
+	)
+
 	handler := newEventHandler(dbHandler, eventEmitter)
 	r := mux.NewRouter()
+	r.Use(serverMiddleware)
 
 	eventsrouter := r.PathPrefix("/events").Subrouter()
 
@@ -20,16 +46,6 @@ func ServeAPI(endpoint, tlsendpoint string, dbHandler persistence.DatabaseHandle
 	eventsrouter.Methods("GET").Path("").HandlerFunc(handler.allEventsHandler)
 	eventsrouter.Methods("POST").Path("").HandlerFunc(handler.newEventHandler)
 
-	httpErrChan := make(chan error)
-	httpsErrChan := make(chan error)
+	return http.ListenAndServe(endpoint, r)
 
-	go func() {
-		httpErrChan <- http.ListenAndServe(endpoint, r)
-	}()
-
-	go func() {
-		httpsErrChan <- http.ListenAndServeTLS(tlsendpoint, "cert.pem", "key.pem", r)
-	}()
-
-	return httpErrChan, httpsErrChan
 }
