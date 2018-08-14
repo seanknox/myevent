@@ -21,7 +21,7 @@ func ServeAPI(endpoint, zipkin_uri string, dbHandler persistence.DatabaseHandler
 	defer reporter.Close()
 
 	// create local zipkin endpoint
-	zipkinEndpoint, err := zipkin.NewEndpoint("myEvent", endpoint)
+	zipkinEndpoint, err := zipkin.NewEndpoint("event", endpoint)
 	if err != nil {
 		log.Fatalf("unable to create local zipking endpoint: %+v\n", err)
 	}
