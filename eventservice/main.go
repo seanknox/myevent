@@ -59,5 +59,5 @@ func main() {
 	fmt.Println("Event Service connected to DB.")
 
 	// API start
-	rest.ServeAPI(config.RestfulEndpoint, config.ZipkinURI, dbhandler, emitter)
+	rest.ServeAPI(config.EventServiceEndpoint, config.ZipkinURI, dbhandler, emitter)
 }

@@ -14,7 +14,6 @@ import (
 func ServeAPI(listenAddr string, database persistence.DatabaseHandler, eventEmitter msgqueue.EventEmitter) {
 	r := mux.NewRouter()
 	r.Methods("POST").Path("/events/{eventID}/bookings").Handler(&CreateBookingHandler{eventEmitter, database})
-	server := handlers.CORS()(r)
 
 	srv := http.Server{
 		Handler:      handlers.CORS()(r),

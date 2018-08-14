@@ -44,6 +44,6 @@ func main() {
 	processor := listener.EventProcessor{eventListener, dbhandler}
 	go processor.ProcessEvents()
 
-	rest.ServeAPI(config.RestfulEndpoint, dbhandler, eventEmitter)
+	rest.ServeAPI(config.BookingServiceEndpoint, dbhandler, eventEmitter)
 
 }
